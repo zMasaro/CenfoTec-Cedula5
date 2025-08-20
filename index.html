@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis de Consumo Eléctrico con Gemini</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5; 
+            color: #333; 
+            max-width: 800px; 
+            margin: 40px auto; 
+            padding: 20px; 
+            box-shadow: 0 0 15px rgba(0,0,0,0.1); 
+            border-radius: 10px; 
+            line-height: 1.6;
+        }
+        h1 { 
+            color: #0b57d0; 
+            text-align: center; 
+        }
+        #container { 
+            background-color: #ffffff; 
+            padding: 25px; 
+            border-radius: 8px; 
+        }
+        #analisis { 
+            border: 1px solid #ddd; 
+            padding: 20px; 
+            margin-top: 20px; 
+            border-radius: 5px; 
+            background-color: #fafafa; 
+            min-height: 100px; 
+            white-space: pre-wrap; /* Mantiene los saltos de línea del texto de Gemini */
+            color: #444;
+        }
+        button { 
+            background-color: #0b57d0; 
+            color: white; 
+            padding: 12px 20px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            font-size: 16px; 
+            display: block; 
+            margin: 20px auto; 
+            transition: background-color 0.3s;
+        }
+        button:hover { 
+            background-color: #0a4cb5; 
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .loader { 
+            border: 4px solid #f3f3f3; 
+            border-top: 4px solid #0b57d0; 
+            border-radius: 50%; 
+            width: 30px; 
+            height: 30px; 
+            animation: spin 1s linear infinite; 
+            margin: 20px auto; 
+            display: none; 
+        }
+        @keyframes spin { 
+            0% { transform: rotate(0deg); } 
+            100% { transform: rotate(360deg); } 
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <h1>Análisis de Consumo por Gemini 🤖</h1>
+        <p>Presiona el botón para obtener el último análisis generado a partir de los datos del ESP32.</p>
+        
+        <button id="updateButton" onclick="actualizarAnalisis()">Actualizar Análisis</button>
+        
+        <div id="loader" class="loader"></div>
+        
+        <h2>💡 Análisis de Gemini:</h2>
+        <div id="analisis">
+            Esperando datos...
+        </div>
+    </div>
+
+    <script>
+        const analisisDiv = document.getElementById('analisis');
+        const loader = document.getElementById('loader');
+        const updateButton = document.getElementById('updateButton');
+
+        async function actualizarAnalisis() {
+            // Muestra el loader, oculta el texto y deshabilita el botón
+            loader.style.display = 'block';
+            analisisDiv.style.display = 'none';
+            updateButton.disabled = true;
+
+            try {
+                // Hacemos la petición a nuestro backend en la ruta /get_analisis
+                const response = await fetch('/get_analisis');
+                
+                if (!response.ok) {
+                    throw new Error(`Error HTTP: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                
+                // Mostramos el texto del análisis. Usamos innerText para seguridad.
+                analisisDiv.innerText = data.analisis;
+
+            } catch (error) {
+                console.error("No se pudo obtener el análisis:", error);
+                analisisDiv.innerText = "Error al cargar el análisis. Asegúrate de que el servidor backend (app.py) esté corriendo y revisa la consola del navegador (F12) para más detalles.";
+            } finally {
+                // Oculta el loader, muestra el texto y vuelve a habilitar el botón
+                loader.style.display = 'none';
+                analisisDiv.style.display = 'block';
+                updateButton.disabled = false;
+            }
+        }
+
+        // Carga el primer análisis en cuanto la página se carga por primera vez
+        window.onload = actualizarAnalisis;
+    </script>
+</body>
+</html>

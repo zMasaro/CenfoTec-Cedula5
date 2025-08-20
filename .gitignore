@@ -1,0 +1,18 @@
+# Archivo .gitignore para el proyecto
+# No subir archivos sensibles
+
+# Entorno virtual de Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Variables de entorno (API Keys)
+.env
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
