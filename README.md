@@ -286,21 +286,6 @@ SOFTWARE.
 - [ ] Certificación para uso comercial
 - [ ] Marketplace de plugins
 
-## 🤝 Contribuciones
-
-¡Las contribuciones son bienvenidas! Por favor:
-
-1. Fork del repositorio
-2. Crear rama feature (`git checkout -b feature/mejora`)
-3. Commit con mensajes descriptivos
-4. Push a la rama (`git push origin feature/mejora`)
-5. Abrir Pull Request
-
-### 📧 Contacto
-- **GitHub:** [@zMasaro](https://github.com/zMasaro)
-- **Email:** proyecto.cenfotec@gmail.com
-- **Universidad:** CenfoTec
-
 ---
 
 <div align="center">
