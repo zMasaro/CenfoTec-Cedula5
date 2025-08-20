@@ -11,9 +11,11 @@ Crear una solución IoT que permita a los usuarios monitorear su consumo eléctr
 
 | Nombre | Rol | Responsabilidades |
 |--------|-----|------------------|
-| **Carlo Emmanuel** | Desarrollador Full-Stack | Backend Flask, Integración Gemini AI, Frontend Web |
-| **[Tu nombre]** | Desarrollador IoT | Hardware ESP32, Sensores, Conectividad WiFi |
-| **Equipo CenfoTec** | Colaboradores | Testing, Documentación, Mejoras |
+| **Carlo Gonzalez Obando** | Desarrollador Backend | Backend Flask, Integración Gemini AI|
+| **Emmanuel Sanchez Rojas** | Desarrollador IoT | Hardware ESP32, Conectividad WiFi |
+| **Joel Mejias** | Desarrollador Full-Stack | Backend Flask, Integración Gemini AI |
+| **Ibisay Gutiérrez** | Desarrolladora Front, Desarrolladora Backend |  
+
 
 ## 🏗️ Arquitectura del Sistema
 
@@ -37,6 +39,10 @@ graph TD
 
 ### Hardware
 - **ESP32** - Microcontrolador con WiFi integrado
+- **JSYMK194G** - Medidor de energia de potencia bidireccional, monofasico
+- **PCB male and female jumper 2.54 mm connectors** 
+- **Heat shrink tubes**
+- **Power cable with plug**   
 - **Sensores de corriente y voltaje** - Para medición eléctrica
 - **Circuitos de acondicionamiento** - Para protección y precisión
 
@@ -86,28 +92,107 @@ git clone https://github.com/zMasaro/CenfoTec-Cedula5.git
 cd CenfoTec-Cedula5
 ```
 
-2. **Crear entorno virtual:**
-```bash
-python -m venv .venv
-.\.venv\Scripts\Activate  # Windows
-# source .venv/bin/activate  # Linux/Mac
+2. **Crear entorno virtual (Windows):**
+```powershell
+# ⚠️ IMPORTANTE: En Windows usar 'py' en lugar de 'python'
+py -m venv .venv
+
+# Si tienes problemas con PowerShell, habilitar ejecución de scripts:
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 ```
 
-3. **Instalar dependencias:**
-```bash
+3. **Activar entorno virtual:**
+```powershell
+# Windows PowerShell
+.\.venv\Scripts\Activate
+
+# Windows CMD
+.\.venv\Scripts\activate.bat
+
+# Linux/Mac
+source .venv/bin/activate
+```
+
+4. **Verificar activación del entorno:**
+```powershell
+# Deberías ver (.venv) al inicio de la línea de comandos:
+# (.venv) PS C:\...\CenfoTec-Cedula5>
+```
+
+5. **Actualizar pip y instalar dependencias:**
+```powershell
+# Actualizar pip a la última versión
+python -m pip install --upgrade pip
+
+# Opción 1: Instalar desde requirements.txt (RECOMENDADO)
 pip install -r requirements.txt
+
+# Opción 2: Instalar manualmente las dependencias principales
+pip install Flask google-generativeai python-dotenv
 ```
 
-4. **Configurar variables de entorno:**
-```bash
+6. **Verificar instalación de dependencias:**
+```powershell
+# Listar paquetes instalados
+pip list
+
+# Deberías ver estas dependencias principales:
+# Flask (framework web)
+# google-generativeai (SDK de Gemini)
+# python-dotenv (gestión de variables .env)
+```
+
+7. **Configurar variables de entorno:**
+```powershell
+# Copiar plantilla de variables de entorno
 cp .env.example .env
-# Editar .env y agregar tu GOOGLE_API_KEY
+
+# Editar .env con tu editor favorito y agregar:
+# GOOGLE_API_KEY=tu_api_key_real_de_google_gemini
 ```
 
-5. **Ejecutar el servidor:**
-```bash
+8. **Ejecutar el servidor:**
+```powershell
+# Opción 1: Ejecutar directamente
 python app.py
+
+# Opción 2: Usar comando flask
+flask run --host=0.0.0.0
+
+# El servidor iniciará en:
+# http://127.0.0.1:5000/ (acceso local)
+# http://tu-ip:5000/ (acceso desde red)
 ```
+
+### 🛠️ Solución de Problemas Comunes
+
+#### ❌ "Python was not found"
+```powershell
+# Solución: Usar 'py' en lugar de 'python'
+py -m venv .venv
+```
+
+#### ❌ "cannot be loaded because running scripts is disabled"
+```powershell
+# Solución: Habilitar ejecución de scripts
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+#### ❌ "No module named 'flask'"
+```powershell
+# Solución: Verificar que el entorno esté activo y reinstalar
+.\.venv\Scripts\Activate
+
+# Reinstalar dependencias
+pip install -r requirements.txt
+
+# O instalar manualmente si no tienes requirements.txt
+pip install Flask google-generativeai python-dotenv
+```
+
+### 💡 **¿Cuándo usar cada método de instalación?**
+- **`pip install -r requirements.txt`** → Usa esto si clonaste el repositorio (RECOMENDADO)
+- **`pip install Flask google-generativeai python-dotenv`** → Usa esto si empiezas desde cero o no tienes el archivo requirements.txt
 
 ### 📡 Configuración del ESP32
 
@@ -288,11 +373,4 @@ SOFTWARE.
 
 ---
 
-<div align="center">
 
-**⭐ Si este proyecto te fue útil, no olvides darle una estrella ⭐**
-
-[![GitHub stars](https://img.shields.io/github/stars/zMasaro/CenfoTec-Cedula5.svg?style=social&label=Star)](https://github.com/zMasaro/CenfoTec-Cedula5)
-[![GitHub forks](https://img.shields.io/github/forks/zMasaro/CenfoTec-Cedula5.svg?style=social&label=Fork)](https://github.com/zMasaro/CenfoTec-Cedula5/fork)
-
-</div>
